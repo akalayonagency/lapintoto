@@ -1,71 +1,120 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bouton animé</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Button Glow</title>
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    background: #111214;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, sans-serif;
+  }
 
-    body {
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: #111;
-      font-family: Arial, sans-serif;
-    }
+  .btn {
+    position: relative;
+    width: 330px;
+    height: 95px;
+    border-radius: 999px;
+    background: #030305;
+    border: none;
+    color: #7f67ff;
+    font-size: 34px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    cursor: pointer;
+    overflow: hidden;
+    box-shadow:
+      inset 0 0 18px rgba(130, 90, 255, 0.28),
+      0 0 25px rgba(90, 70, 180, 0.18);
+  }
 
-    .btn {
-      position: relative;
-      padding: 18px 45px;
-      color: #fff;
-      font-size: 20px;
-      font-weight: 600;
-      text-decoration: none;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      border: 2px solid #00ff88;
-      border-radius: 50px;
-      overflow: hidden;
-      transition: 0.4s ease;
-      z-index: 1;
-    }
+  .btn::before {
+    content: "";
+    position: absolute;
+    inset: -3px;
+    border-radius: inherit;
+    background: conic-gradient(
+      from 0deg,
+      transparent 0deg,
+      transparent 250deg,
+      #7b5cff 290deg,
+      #ffffff 310deg,
+      #7b5cff 330deg,
+      transparent 360deg
+    );
+    animation: rotateGlow 2.4s linear infinite;
+    z-index: 0;
+  }
 
-    .btn::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: #00ff88;
-      transition: 0.4s ease;
-      z-index: -1;
-    }
+  .btn::after {
+    content: "";
+    position: absolute;
+    inset: 4px;
+    border-radius: inherit;
+    background: #030305;
+    z-index: 1;
+  }
 
-    .btn:hover::before {
-      left: 0;
-    }
+  .btn span {
+    position: relative;
+    z-index: 3;
+    text-shadow: 0 0 14px rgba(126, 98, 255, 0.85);
+  }
 
-    .btn:hover {
-      color: #111;
-      box-shadow:
-        0 0 10px #00ff88,
-        0 0 25px #00ff88,
-        0 0 50px #00ff88,
-        0 0 100px #00ff88;
-      transform: scale(1.08);
+  .btn .mouse-aura {
+    position: absolute;
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    background: radial-gradient(
+      circle,
+      rgba(135, 100, 255, 0.55) 0%,
+      rgba(135, 100, 255, 0.25) 35%,
+      transparent 70%
+    );
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    opacity: 0;
+    z-index: 2;
+    transition: opacity 0.25s ease;
+    filter: blur(8px);
+  }
+
+  .btn:hover .mouse-aura {
+    opacity: 1;
+  }
+
+  @keyframes rotateGlow {
+    to {
+      transform: rotate(360deg);
     }
-  </style>
+  }
+</style>
 </head>
 
 <body>
-  <a href="#" class="btn">Hover Me</a>
+
+<button class="btn">
+  <span>BUTTON</span>
+  <i class="mouse-aura"></i>
+</button>
+
+<script>
+  const button = document.querySelector(".btn");
+  const aura = document.querySelector(".mouse-aura");
+
+  button.addEventListener("mousemove", (e) => {
+    const rect = button.getBoundingClientRect();
+    aura.style.left = `${e.clientX - rect.left}px`;
+    aura.style.top = `${e.clientY - rect.top}px`;
+  });
+</script>
+
 </body>
 </html>
