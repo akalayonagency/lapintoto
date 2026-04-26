@@ -3,37 +3,37 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Button Glow</title>
 
 <style>
   body {
     margin: 0;
-    height: 100vh;
-    background: #111214;
+    background: transparent; /* TRANSPARENT */
     display: flex;
     justify-content: center;
     align-items: center;
-    font-family: Arial, sans-serif;
+    height: 100vh;
   }
 
   .btn {
     position: relative;
-    width: 330px;
+    width: 480px;
     height: 95px;
     border-radius: 999px;
-    background: #030305;
-    border: none;
-    color: #7f67ff;
-    font-size: 34px;
-    font-weight: 700;
-    letter-spacing: 4px;
-    cursor: pointer;
+    background: #050814;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     overflow: hidden;
+    cursor: pointer;
+    font-family: Arial, sans-serif;
+
     box-shadow:
-      inset 0 0 18px rgba(130, 90, 255, 0.28),
-      0 0 25px rgba(90, 70, 180, 0.18);
+      inset 0 0 18px rgba(40, 90, 255, 0.25),
+      0 0 25px rgba(20, 60, 200, 0.2);
   }
 
+  /* Lueur tournante */
   .btn::before {
     content: "";
     position: absolute;
@@ -42,40 +42,48 @@
     background: conic-gradient(
       from 0deg,
       transparent 0deg,
-      transparent 250deg,
-      #7b5cff 290deg,
-      #ffffff 310deg,
-      #7b5cff 330deg,
+      transparent 260deg,
+      #2f6cff 300deg,
+      #ffffff 315deg,
+      #2f6cff 330deg,
       transparent 360deg
     );
-    animation: rotateGlow 2.4s linear infinite;
+    animation: rotateGlow 2.5s linear infinite;
     z-index: 0;
   }
 
+  /* Masque intérieur */
   .btn::after {
     content: "";
     position: absolute;
     inset: 4px;
     border-radius: inherit;
-    background: #030305;
+    background: #050814;
     z-index: 1;
   }
 
   .btn span {
     position: relative;
     z-index: 3;
-    text-shadow: 0 0 14px rgba(126, 98, 255, 0.85);
+    color: #7ea6ff;
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-align: center;
+    padding: 0 20px;
+    text-shadow: 0 0 10px rgba(80, 120, 255, 0.7);
   }
 
-  .btn .mouse-aura {
+  /* Aura souris */
+  .mouse-aura {
     position: absolute;
-    width: 130px;
-    height: 130px;
+    width: 140px;
+    height: 140px;
     border-radius: 50%;
     background: radial-gradient(
       circle,
-      rgba(135, 100, 255, 0.55) 0%,
-      rgba(135, 100, 255, 0.25) 35%,
+      rgba(80, 130, 255, 0.6) 0%,
+      rgba(80, 130, 255, 0.25) 40%,
       transparent 70%
     );
     transform: translate(-50%, -50%);
@@ -83,7 +91,7 @@
     opacity: 0;
     z-index: 2;
     transition: opacity 0.25s ease;
-    filter: blur(8px);
+    filter: blur(10px);
   }
 
   .btn:hover .mouse-aura {
@@ -100,10 +108,10 @@
 
 <body>
 
-<button class="btn">
-  <span>BUTTON</span>
+<a href="https://phonexpress.odoo.com/demande-de-devis" target="_blank" class="btn">
+  <span>Faites réparer votre appareil</span>
   <i class="mouse-aura"></i>
-</button>
+</a>
 
 <script>
   const button = document.querySelector(".btn");
