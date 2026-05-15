@@ -1,128 +1,806 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>404 — La page est en cours de création !</title>
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
+  :root {
+    --rabbit-pink: #E87C9E;
+    --rabbit-dark: #C45A7A;
+    --yellow: #F5C842;
+    --cream: #FFF5E6;
+    --dark: #2C1A0E;
+    --coffee: #6B3A2A;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
   body {
-    margin: 0;
-    background: transparent; /* TRANSPARENT */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+    background: var(--cream);
+    font-family: 'Nunito', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+    cursor: default;
   }
 
-  .btn {
+  /* Grain texture overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4'%3E%3Crect width='1' height='1' fill='%23000' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+  }
+
+  /* ===== MAIN SCENE ===== */
+  .scene {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 2rem;
     position: relative;
-    width: 480px;
-    height: 95px;
-    border-radius: 999px;
-    background: #050814;
-    text-decoration: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    cursor: pointer;
-    font-family: Arial, sans-serif;
-
-    box-shadow:
-      inset 0 0 18px rgba(40, 90, 255, 0.25),
-      0 0 25px rgba(20, 60, 200, 0.2);
   }
 
-  /* Lueur tournante */
-  .btn::before {
-    content: "";
-    position: absolute;
-    inset: -3px;
-    border-radius: inherit;
-    background: conic-gradient(
-      from 0deg,
-      transparent 0deg,
-      transparent 260deg,
-      #2f6cff 300deg,
-      #ffffff 315deg,
-      #2f6cff 330deg,
-      transparent 360deg
-    );
-    animation: rotateGlow 2.5s linear infinite;
-    z-index: 0;
+  /* ===== SPEECH BUBBLE ===== */
+  .bubble {
+    background: white;
+    border: 3px solid var(--dark);
+    border-radius: 50px;
+    padding: 1.2rem 2rem;
+    font-family: 'Bangers', cursive;
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    letter-spacing: 1px;
+    color: var(--dark);
+    position: relative;
+    text-align: center;
+    margin-bottom: 1rem;
+    animation: bobble 2.5s ease-in-out infinite;
+    box-shadow: 4px 4px 0 var(--dark);
   }
-
-  /* Masque intérieur */
-  .btn::after {
-    content: "";
+  .bubble::after {
+    content: '';
     position: absolute;
-    inset: 4px;
-    border-radius: inherit;
-    background: #050814;
+    bottom: -24px;
+    right: 25%;
+    width: 0; height: 0;
+    border-left: 12px solid transparent;
+    border-right: 12px solid transparent;
+    border-top: 24px solid var(--dark);
+  }
+  .bubble::before {
+    content: '';
+    position: absolute;
+    bottom: -18px;
+    right: calc(25% + 4px);
+    width: 0; height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 20px solid white;
     z-index: 1;
   }
+  @keyframes bobble {
+    0%,100% { transform: translateY(0) rotate(-1deg); }
+    50% { transform: translateY(-8px) rotate(1deg); }
+  }
 
-  .btn span {
+  /* ===== RABBIT SVG ===== */
+  .rabbit-container {
     position: relative;
-    z-index: 3;
-    color: #7ea6ff;
-    font-size: 22px;
-    font-weight: 600;
+    width: min(320px, 80vw);
+    margin: 1rem 0;
+    cursor: pointer;
+    animation: sit 4s ease-in-out infinite;
+  }
+  @keyframes sit {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+  .rabbit-container:hover { animation: wiggle 0.4s ease-in-out infinite; }
+  @keyframes wiggle {
+    0%,100% { transform: rotate(-3deg); }
+    50% { transform: rotate(3deg); }
+  }
+
+  /* ===== LAPTOP ===== */
+  .laptop-wrap {
+    background: #333;
+    border-radius: 12px 12px 0 0;
+    padding: 8px 8px 0;
+    width: min(280px, 70vw);
+    box-shadow: 0 0 0 2px #222;
+    position: relative;
+    margin-top: 0.5rem;
+  }
+  .laptop-screen {
+    background: #f0f0f0;
+    border-radius: 6px 6px 0 0;
+    aspect-ratio: 16/10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Bangers', cursive;
+    overflow: hidden;
+    position: relative;
+  }
+  .laptop-base {
+    background: #444;
+    height: 14px;
+    border-radius: 0 0 8px 8px;
+    width: 120%;
+    margin-left: -10%;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  }
+
+  .error-404 {
+    font-size: clamp(3rem, 10vw, 5rem);
+    color: var(--dark);
+    line-height: 1;
+    animation: glitch 3s ease-in-out infinite;
+  }
+  @keyframes glitch {
+    0%,90%,100% { transform: skew(0); color: var(--dark); }
+    92% { transform: skew(-2deg); color: #e00; }
+    94% { transform: skew(2deg) translateX(3px); color: var(--dark); }
+    96% { transform: skew(-1deg) translateX(-2px); color: #e00; }
+    98% { transform: skew(0); color: var(--dark); }
+  }
+
+  .page-introuvable {
+    font-size: clamp(0.55rem, 1.5vw, 0.75rem);
+    color: #555;
+    margin-top: 4px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
     letter-spacing: 1px;
-    text-align: center;
-    padding: 0 20px;
-    text-shadow: 0 0 10px rgba(80, 120, 255, 0.7);
+    text-transform: uppercase;
   }
 
-  /* Aura souris */
-  .mouse-aura {
+  .screen-rabbit {
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    margin: 6px 0 2px;
+  }
+
+  /* ===== COFFEE MUG ===== */
+  .mug-area {
     position: absolute;
-    width: 140px;
-    height: 140px;
-    border-radius: 50%;
-    background: radial-gradient(
-      circle,
-      rgba(80, 130, 255, 0.6) 0%,
-      rgba(80, 130, 255, 0.25) 40%,
-      transparent 70%
-    );
-    transform: translate(-50%, -50%);
-    pointer-events: none;
+    left: -60px;
+    bottom: 14px;
+    font-size: 2.5rem;
+    animation: steam 2s ease-in-out infinite;
+  }
+  @keyframes steam {
+    0%,100% { transform: rotate(-5deg); }
+    50% { transform: rotate(5deg); }
+  }
+  .steam-lines {
+    position: absolute;
+    top: -18px;
+    left: 6px;
+    display: flex;
+    gap: 4px;
+  }
+  .steam-lines span {
+    font-size: 0.8rem;
+    animation: rise 1.5s ease-out infinite;
     opacity: 0;
-    z-index: 2;
-    transition: opacity 0.25s ease;
-    filter: blur(10px);
+  }
+  .steam-lines span:nth-child(2) { animation-delay: 0.3s; }
+  .steam-lines span:nth-child(3) { animation-delay: 0.6s; }
+  @keyframes rise {
+    0% { opacity: 0.8; transform: translateY(0); }
+    100% { opacity: 0; transform: translateY(-20px); }
   }
 
-  .btn:hover .mouse-aura {
-    opacity: 1;
+  /* ===== PROGRESS BAR ===== */
+  .progress-area {
+    text-align: center;
+    margin-top: 1.5rem;
+  }
+  .progress-label {
+    font-family: 'Bangers', cursive;
+    font-size: 1.1rem;
+    color: var(--coffee);
+    margin-bottom: 0.4rem;
+    letter-spacing: 1px;
+  }
+  .progress-bar-wrap {
+    width: min(340px, 80vw);
+    height: 22px;
+    background: white;
+    border: 3px solid var(--dark);
+    border-radius: 30px;
+    overflow: hidden;
+    box-shadow: 3px 3px 0 var(--dark);
+    position: relative;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--rabbit-pink) 0%, var(--yellow) 100%);
+    border-radius: 30px;
+    width: 0%;
+    transition: width 0.3s ease;
+    position: relative;
+  }
+  .progress-fill::after {
+    content: '🐰';
+    position: absolute;
+    right: -2px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+  }
+  .progress-percent {
+    font-family: 'Bangers', cursive;
+    font-size: 1rem;
+    color: var(--coffee);
+    margin-top: 4px;
   }
 
-  @keyframes rotateGlow {
-    to {
-      transform: rotate(360deg);
-    }
+  /* ===== HIDDEN GAME TRIGGER ===== */
+  .secret-hint {
+    margin-top: 1.2rem;
+    font-size: 0.75rem;
+    color: #bbb;
+    text-align: center;
+    transition: color 0.3s;
+    cursor: default;
+    user-select: none;
+  }
+  .secret-hint:hover { color: var(--rabbit-pink); }
+
+  /* ===== GAME OVERLAY ===== */
+  #game-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(20,10,5,0.92);
+    z-index: 500;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  #game-overlay.active { display: flex; }
+
+  .game-box {
+    background: #1a0a05;
+    border: 3px solid var(--rabbit-pink);
+    border-radius: 16px;
+    padding: 1.5rem;
+    width: min(360px, 92vw);
+    box-shadow: 0 0 30px rgba(232,124,158,0.4), 0 0 60px rgba(232,124,158,0.1);
+    text-align: center;
+  }
+
+  .game-title {
+    font-family: 'Bangers', cursive;
+    font-size: 1.6rem;
+    color: var(--rabbit-pink);
+    letter-spacing: 2px;
+    margin-bottom: 0.2rem;
+  }
+  .game-subtitle {
+    font-size: 0.75rem;
+    color: #888;
+    margin-bottom: 1rem;
+  }
+
+  #game-canvas {
+    background: #0d0d0d;
+    border: 2px solid #333;
+    border-radius: 8px;
+    display: block;
+    margin: 0 auto 1rem;
+    image-rendering: pixelated;
+    cursor: none;
+  }
+
+  .game-stats {
+    display: flex;
+    justify-content: space-around;
+    font-family: 'Bangers', cursive;
+    font-size: 1.1rem;
+    color: var(--yellow);
+    margin-bottom: 0.8rem;
+  }
+  .game-stats span { color: white; }
+
+  .game-btn {
+    background: var(--rabbit-pink);
+    color: white;
+    border: none;
+    border-radius: 30px;
+    padding: 0.5rem 1.5rem;
+    font-family: 'Bangers', cursive;
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+    cursor: pointer;
+    margin: 0.2rem;
+    transition: transform 0.1s;
+  }
+  .game-btn:hover { transform: scale(1.05); }
+  .game-btn.close-btn { background: #444; }
+  .game-btn.close-btn:hover { background: #666; }
+
+  .game-message {
+    font-family: 'Bangers', cursive;
+    font-size: 1.2rem;
+    color: var(--yellow);
+    min-height: 1.6rem;
+    margin-bottom: 0.3rem;
+  }
+
+  /* ===== FLOATING CARROTS ===== */
+  .floating-carrot {
+    position: fixed;
+    font-size: 1.5rem;
+    pointer-events: none;
+    animation: floatUp linear forwards;
+    z-index: 200;
+  }
+  @keyframes floatUp {
+    0% { opacity: 1; transform: translateY(0) rotate(0deg); }
+    100% { opacity: 0; transform: translateY(-120px) rotate(360deg); }
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 480px) {
+    .mug-area { display: none; }
   }
 </style>
 </head>
-
 <body>
 
-<a href="https://phonexpress.odoo.com/demande-de-devis" target="_blank" class="btn">
-  <span>Faites réparer votre appareil</span>
-  <i class="mouse-aura"></i>
-</a>
+<div class="scene">
+
+  <!-- Speech bubble -->
+  <div class="bubble">
+    La page est en cours<br>de création&nbsp;!&nbsp;🥕
+  </div>
+
+  <!-- Rabbit character -->
+  <div class="rabbit-container" id="rabbit" title="Cliquez sur moi !">
+    <svg viewBox="0 0 320 280" xmlns="http://www.w3.org/2000/svg" style="width:100%;overflow:visible">
+      <!-- Ears -->
+      <ellipse cx="120" cy="60" rx="18" ry="52" fill="#E87C9E" stroke="#333" stroke-width="2.5"/>
+      <ellipse cx="120" cy="60" rx="10" ry="40" fill="#f4b5ca"/>
+      <ellipse cx="155" cy="45" rx="16" ry="55" fill="#E87C9E" stroke="#333" stroke-width="2.5" transform="rotate(-10 155 45)"/>
+      <ellipse cx="155" cy="45" rx="9" ry="43" fill="#f4b5ca" transform="rotate(-10 155 45)"/>
+
+      <!-- Head -->
+      <ellipse cx="138" cy="120" rx="58" ry="55" fill="#E87C9E" stroke="#333" stroke-width="3"/>
+      <!-- Face cream patch -->
+      <ellipse cx="138" cy="130" rx="36" ry="32" fill="#f9dbe8"/>
+      <!-- Eyes -->
+      <circle cx="118" cy="112" r="14" fill="white" stroke="#333" stroke-width="2"/>
+      <circle cx="158" cy="110" r="13" fill="white" stroke="#333" stroke-width="2"/>
+      <circle cx="121" cy="113" r="7" fill="#222"/>
+      <circle cx="161" cy="111" r="6" fill="#222"/>
+      <circle cx="123" cy="111" r="3" fill="white"/>
+      <circle cx="163" cy="109" r="2.5" fill="white"/>
+      <!-- Nose -->
+      <ellipse cx="138" cy="132" rx="7" ry="5" fill="#333"/>
+      <!-- Mouth / teeth - sly grin -->
+      <path d="M130 140 Q138 148 148 140" stroke="#333" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <rect x="133" y="140" width="10" height="9" fill="white" stroke="#333" stroke-width="1.5" rx="2"/>
+
+      <!-- Body yellow shirt -->
+      <ellipse cx="138" cy="210" rx="55" ry="50" fill="#F5C842" stroke="#333" stroke-width="2.5"/>
+      <!-- Jeans -->
+      <ellipse cx="138" cy="248" rx="50" ry="25" fill="#4a7ab5" stroke="#333" stroke-width="2"/>
+
+      <!-- Left arm pointing -->
+      <path d="M85 185 Q40 200 25 220" stroke="#E87C9E" stroke-width="18" fill="none" stroke-linecap="round"/>
+      <circle cx="22" cy="223" r="12" fill="#E87C9E" stroke="#333" stroke-width="2"/>
+      <!-- Pointing finger -->
+      <line x1="22" y1="211" x2="10" y2="195" stroke="#E87C9E" stroke-width="8" stroke-linecap="round"/>
+
+      <!-- Right arm on keyboard -->
+      <path d="M192 185 Q220 205 230 220" stroke="#E87C9E" stroke-width="16" fill="none" stroke-linecap="round"/>
+      <ellipse cx="236" cy="225" rx="18" ry="10" fill="#E87C9E" stroke="#333" stroke-width="2"/>
+    </svg>
+
+    <!-- Laptop beneath rabbit arm -->
+    <div style="position:absolute;bottom:8px;left:-30px;width:200px;">
+      <div class="laptop-wrap">
+        <div class="laptop-screen">
+          <div class="error-404" id="screen-404">404</div>
+          <div class="screen-rabbit">🐰💩</div>
+          <div class="page-introuvable">Page introuvable</div>
+        </div>
+      </div>
+      <div class="laptop-base"></div>
+
+      <!-- Coffee mug -->
+      <div class="mug-area">
+        <div class="steam-lines">
+          <span>〰</span><span>〰</span><span>〰</span>
+        </div>
+        ☕🥕
+      </div>
+    </div>
+  </div>
+
+  <!-- Progress bar -->
+  <div class="progress-area">
+    <div class="progress-label">Avancement de la page :</div>
+    <div class="progress-bar-wrap">
+      <div class="progress-fill" id="progress-fill"></div>
+    </div>
+    <div class="progress-percent" id="progress-pct">Chargement... 0%</div>
+  </div>
+
+  <!-- Secret hint -->
+  <p class="secret-hint" id="secret-hint">
+    👀 psst... cliquez 5× sur le lapin pour débloquer quelque chose...
+  </p>
+
+</div>
+
+<!-- ===== GAME OVERLAY ===== -->
+<div id="game-overlay">
+  <div class="game-box">
+    <div class="game-title">🥕 CARROT CATCHER 🥕</div>
+    <div class="game-subtitle">Attrape les carottes, évite les 404 !</div>
+    <div class="game-stats">
+      Score : <span id="g-score">0</span> &nbsp;|&nbsp; Vies : <span id="g-lives">3</span> &nbsp;|&nbsp; Niveau : <span id="g-level">1</span>
+    </div>
+    <canvas id="game-canvas" width="320" height="220"></canvas>
+    <div class="game-message" id="game-msg"></div>
+    <button class="game-btn" id="start-btn" onclick="startGame()">JOUER !</button>
+    <button class="game-btn close-btn" onclick="closeGame()">Retour 🐰</button>
+  </div>
+</div>
 
 <script>
-  const button = document.querySelector(".btn");
-  const aura = document.querySelector(".mouse-aura");
+/* ===== PROGRESS BAR ===== */
+(function() {
+  const fill = document.getElementById('progress-fill');
+  const pct = document.getElementById('progress-pct');
+  const msgs = [
+    "Récupération des carottes...",
+    "Compilation des oreilles...",
+    "Installation du café...",
+    "Débogage du lapin...",
+    "Optimisation des moustaches...",
+    "Chargement des bugs features...",
+    "Presque là... on dirait...",
+    "Encore un peu... promis !",
+    "Lapin en train de coder...",
+    "Plus que quelques carottes..."
+  ];
+  let current = 0;
+  const target = 42 + Math.random() * 35 | 0;
 
-  button.addEventListener("mousemove", (e) => {
-    const rect = button.getBoundingClientRect();
-    aura.style.left = `${e.clientX - rect.left}px`;
-    aura.style.top = `${e.clientY - rect.top}px`;
+  function tick() {
+    if (current < target) {
+      current += Math.random() * 1.5;
+      if (current > target) current = target;
+      fill.style.width = current + '%';
+      const msgIdx = Math.floor((current / 100) * msgs.length);
+      pct.textContent = msgs[Math.min(msgIdx, msgs.length - 1)] + ' — ' + Math.round(current) + '%';
+      setTimeout(tick, 80 + Math.random() * 120);
+    } else {
+      pct.textContent = `En pause à ${Math.round(current)}%... le lapin fait une pause café ☕`;
+    }
+  }
+  setTimeout(tick, 800);
+})();
+
+/* ===== RABBIT CLICK EASTER EGG ===== */
+let clicks = 0;
+const rabbit = document.getElementById('rabbit');
+const hint = document.getElementById('secret-hint');
+const reactions = ['😮','😲','🤨','🥕','🐰'];
+
+rabbit.addEventListener('click', function(e) {
+  clicks++;
+  // Floating emoji
+  const el = document.createElement('div');
+  el.className = 'floating-carrot';
+  el.textContent = reactions[Math.min(clicks - 1, reactions.length - 1)];
+  el.style.left = (e.clientX - 12) + 'px';
+  el.style.top = (e.clientY - 12) + 'px';
+  el.style.animationDuration = '1.2s';
+  document.body.appendChild(el);
+  el.addEventListener('animationend', () => el.remove());
+
+  // Hint progress
+  const remaining = 5 - clicks;
+  if (remaining > 0 && clicks < 5) {
+    hint.textContent = `👀 encore ${remaining} clic${remaining > 1 ? 's' : ''}...`;
+  }
+
+  if (clicks >= 5) {
+    hint.textContent = '🎮 JEU DÉBLOQUÉ ! Bonne chance !';
+    hint.style.color = '#E87C9E';
+    setTimeout(() => document.getElementById('game-overlay').classList.add('active'), 500);
+  }
+});
+
+/* ===== MINI GAME ===== */
+const canvas = document.getElementById('game-canvas');
+const ctx = canvas.getContext('2d');
+const W = canvas.width, H = canvas.height;
+
+let gameRunning = false, animFrame;
+let score = 0, lives = 3, level = 1;
+let basket = { x: W/2 - 25, y: H - 30, w: 50, h: 18, speed: 5 };
+let items = [];
+let frameCount = 0;
+let mouseX = W / 2;
+let combo = 0;
+
+function resetGame() {
+  score = 0; lives = 3; level = 1;
+  items = []; frameCount = 0; combo = 0;
+  basket.x = W/2 - basket.w/2;
+  updateStats();
+  document.getElementById('game-msg').textContent = '';
+}
+
+function updateStats() {
+  document.getElementById('g-score').textContent = score;
+  document.getElementById('g-lives').textContent = '❤️'.repeat(lives);
+  document.getElementById('g-level').textContent = level;
+}
+
+function spawnItem() {
+  const r = Math.random();
+  let type;
+  if (r < 0.55) type = 'carrot';
+  else if (r < 0.75) type = 'coffee';
+  else if (r < 0.85) type = 'star';
+  else type = 'bug';
+
+  items.push({
+    x: 20 + Math.random() * (W - 40),
+    y: -20,
+    vy: 1.5 + level * 0.4 + Math.random() * 1.5,
+    type,
+    size: 20,
+    rot: Math.random() * Math.PI * 2
   });
+}
+
+function drawBasket(x, y, w, h) {
+  ctx.fillStyle = '#E87C9E';
+  ctx.beginPath();
+  ctx.moveTo(x, y);
+  ctx.lineTo(x + w, y);
+  ctx.lineTo(x + w - 4, y + h);
+  ctx.lineTo(x + 4, y + h);
+  ctx.closePath();
+  ctx.fill();
+  ctx.strokeStyle = '#c45a7a';
+  ctx.lineWidth = 2;
+  ctx.stroke();
+  // Rabbit ear on basket
+  ctx.fillStyle = '#f4b5ca';
+  ctx.beginPath();
+  ctx.ellipse(x + w/2 - 6, y - 8, 4, 10, -0.2, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.beginPath();
+  ctx.ellipse(x + w/2 + 6, y - 10, 4, 10, 0.2, 0, Math.PI * 2);
+  ctx.fill();
+}
+
+function drawItem(item) {
+  ctx.save();
+  ctx.translate(item.x, item.y);
+  ctx.rotate(item.rot);
+  ctx.font = `${item.size}px serif`;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  const emojis = { carrot: '🥕', coffee: '☕', star: '⭐', bug: '🐛' };
+  ctx.fillText(emojis[item.type] || '?', 0, 0);
+  ctx.restore();
+}
+
+function gameLoop() {
+  if (!gameRunning) return;
+  frameCount++;
+
+  // Clear
+  ctx.fillStyle = '#0d0d0d';
+  ctx.fillRect(0, 0, W, H);
+
+  // Grid bg
+  ctx.strokeStyle = 'rgba(232,124,158,0.06)';
+  ctx.lineWidth = 1;
+  for (let i = 0; i < W; i += 20) { ctx.beginPath(); ctx.moveTo(i,0); ctx.lineTo(i,H); ctx.stroke(); }
+  for (let j = 0; j < H; j += 20) { ctx.beginPath(); ctx.moveTo(0,j); ctx.lineTo(W,j); ctx.stroke(); }
+
+  // Move basket toward mouse
+  const bCenter = basket.x + basket.w / 2;
+  const diff = mouseX - bCenter;
+  basket.x += Math.sign(diff) * Math.min(Math.abs(diff), basket.speed + level * 0.5);
+  basket.x = Math.max(0, Math.min(W - basket.w, basket.x));
+
+  // Spawn
+  const spawnRate = Math.max(25, 55 - level * 4);
+  if (frameCount % spawnRate === 0) spawnItem();
+
+  // Update items
+  for (let i = items.length - 1; i >= 0; i--) {
+    const it = items[i];
+    it.y += it.vy;
+    it.rot += 0.04;
+
+    // Check catch
+    const bx1 = basket.x, bx2 = basket.x + basket.w;
+    const by = basket.y;
+    if (it.y + it.size/2 >= by && it.y - it.size/2 <= by + basket.h &&
+        it.x >= bx1 - it.size/2 && it.x <= bx2 + it.size/2) {
+      if (it.type === 'carrot') {
+        combo++;
+        const pts = 10 * (combo > 3 ? 3 : 1);
+        score += pts;
+        spawnPopup(it.x, it.y, `+${pts} 🥕`);
+      } else if (it.type === 'coffee') {
+        score += 5;
+        spawnPopup(it.x, it.y, '+5 ☕');
+        combo = 0;
+      } else if (it.type === 'star') {
+        score += 25;
+        spawnPopup(it.x, it.y, '+25 ⭐ SUPER!');
+        combo = 0;
+      } else if (it.type === 'bug') {
+        lives--;
+        combo = 0;
+        spawnPopup(it.x, it.y, '💀 BUG!');
+        canvas.classList.add('shake');
+        setTimeout(() => canvas.classList.remove('shake'), 400);
+        if (lives <= 0) { endGame(); return; }
+      }
+      items.splice(i, 1);
+      updateStats();
+      level = 1 + Math.floor(score / 100);
+      continue;
+    }
+
+    // Miss (fallen off)
+    if (it.y > H + 20) {
+      if (it.type === 'carrot') {
+        lives--;
+        combo = 0;
+        spawnPopup(it.x, H - 20, '💔 Raté !');
+        if (lives <= 0) { endGame(); return; }
+        updateStats();
+      }
+      items.splice(i, 1);
+    } else {
+      drawItem(it);
+    }
+  }
+
+  // Draw basket
+  drawBasket(basket.x, basket.y, basket.w, basket.h);
+
+  // Draw popups
+  drawPopups();
+
+  // HUD
+  ctx.fillStyle = '#E87C9E';
+  ctx.font = '500 12px Nunito, sans-serif';
+  ctx.textAlign = 'left';
+  if (combo >= 3) {
+    ctx.fillStyle = '#F5C842';
+    ctx.fillText(`COMBO x${combo}! 🔥`, 8, 18);
+  }
+
+  animFrame = requestAnimationFrame(gameLoop);
+}
+
+const popups = [];
+function spawnPopup(x, y, text) {
+  popups.push({ x, y, text, life: 60, maxLife: 60 });
+}
+function drawPopups() {
+  for (let i = popups.length - 1; i >= 0; i--) {
+    const p = popups[i];
+    p.life--;
+    p.y -= 0.8;
+    const alpha = p.life / p.maxLife;
+    ctx.globalAlpha = alpha;
+    ctx.fillStyle = '#F5C842';
+    ctx.font = 'bold 13px Nunito, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(p.text, p.x, p.y);
+    ctx.globalAlpha = 1;
+    if (p.life <= 0) popups.splice(i, 1);
+  }
+}
+
+function startGame() {
+  resetGame();
+  gameRunning = true;
+  document.getElementById('start-btn').style.display = 'none';
+  document.getElementById('game-msg').textContent = '';
+  gameLoop();
+}
+
+function endGame() {
+  gameRunning = false;
+  cancelAnimationFrame(animFrame);
+  document.getElementById('game-msg').textContent = `💀 Game Over ! Score : ${score}`;
+  document.getElementById('start-btn').style.display = 'inline-block';
+  document.getElementById('start-btn').textContent = 'REJOUER !';
+  updateStats();
+  // Final screen
+  ctx.fillStyle = 'rgba(0,0,0,0.7)';
+  ctx.fillRect(0, 0, W, H);
+  ctx.fillStyle = '#E87C9E';
+  ctx.font = 'bold 28px Bangers, cursive';
+  ctx.textAlign = 'center';
+  ctx.fillText('GAME OVER', W/2, H/2 - 20);
+  ctx.fillStyle = '#F5C842';
+  ctx.font = '18px Bangers, cursive';
+  ctx.fillText(`Score final : ${score}`, W/2, H/2 + 15);
+  ctx.fillStyle = '#aaa';
+  ctx.font = '13px Nunito, sans-serif';
+  ctx.fillText('Le lapin est déçu... 🐰', W/2, H/2 + 42);
+}
+
+function closeGame() {
+  gameRunning = false;
+  cancelAnimationFrame(animFrame);
+  document.getElementById('game-overlay').classList.remove('active');
+  document.getElementById('start-btn').style.display = 'inline-block';
+  document.getElementById('start-btn').textContent = 'JOUER !';
+}
+
+// Mouse / touch controls
+canvas.addEventListener('mousemove', e => {
+  const rect = canvas.getBoundingClientRect();
+  mouseX = (e.clientX - rect.left) * (W / rect.width);
+});
+canvas.addEventListener('touchmove', e => {
+  e.preventDefault();
+  const rect = canvas.getBoundingClientRect();
+  mouseX = (e.touches[0].clientX - rect.left) * (W / rect.width);
+}, { passive: false });
+
+// Draw idle canvas
+ctx.fillStyle = '#0d0d0d';
+ctx.fillRect(0, 0, W, H);
+ctx.fillStyle = '#E87C9E';
+ctx.font = '20px Bangers, cursive';
+ctx.textAlign = 'center';
+ctx.fillText('Appuyez sur JOUER !', W/2, H/2 - 10);
+ctx.fillStyle = '#888';
+ctx.font = '14px Nunito, sans-serif';
+ctx.fillText('🥕 Attrape les carottes, évite les bugs !', W/2, H/2 + 18);
+
+// ===== KONAMI CODE easter egg =====
+const konami = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+let konamiIdx = 0;
+document.addEventListener('keydown', e => {
+  if (e.key === konami[konamiIdx]) {
+    konamiIdx++;
+    if (konamiIdx === konami.length) {
+      konamiIdx = 0;
+      document.getElementById('game-overlay').classList.add('active');
+    }
+  } else {
+    konamiIdx = 0;
+  }
+});
 </script>
+
+<style>
+@keyframes shake {
+  0%,100% { transform: translateX(0); }
+  25% { transform: translateX(-6px); }
+  75% { transform: translateX(6px); }
+}
+#game-canvas.shake { animation: shake 0.4s; }
+</style>
 
 </body>
 </html>
